@@ -1,4 +1,4 @@
-### **XCS-229-II Machine Learning Strategy & Intro to Reinforcement LearningFinal Project**
+### **XCS-229-II Machine Learning Strategy & Intro to Reinforcement Learning Final Project**
 Author: Han Yu
 #### Tl;DR
 TODO
