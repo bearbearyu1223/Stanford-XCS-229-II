@@ -4,3 +4,6 @@
 [submodule "XCS229-Handouts"]
 	path = XCS229-Handouts
 	url = https://github.com/scpd-proed/XCS229-Handouts.git
+[submodule "XCS229ii-PS1"]
+	path = XCS229ii-PS1
+	url = https://github.com/scpd-proed/XCS229ii-PS1.git
