@@ -1,9 +1,12 @@
-[submodule "General_Handouts"]
-	path = General_Handouts
-	url = https://github.com/scpd-proed/General_Handouts.git
-[submodule "XCS229-Handouts"]
-	path = XCS229-Handouts
-	url = https://github.com/scpd-proed/XCS229-Handouts.git
 [submodule "XCS229ii-PS1"]
 	path = XCS229ii-PS1
 	url = https://github.com/scpd-proed/XCS229ii-PS1.git
+[submodule "XCS229ii-PS2"]
+	path = XCS229ii-PS2
+	url = https://github.com/scpd-proed/XCS229ii-PS2.git
+[submodule "XCS229-Handouts"]
+	path = XCS229-Handouts
+	url = https://github.com/scpd-proed/XCS229-Handouts.git
+[submodule "General_Handouts"]
+	path = General_Handouts
+	url = https://github.com/scpd-proed/General_Handouts.git
