@@ -1,0 +1,10 @@
+\item \points{1d}
+\textbf{Addding Data.}
+After setting up your train-dev-test sets, the City Council comes across another 1,000,000 images, called the “citizens’ data”. Apparently the citizens of the town took their own pictures from the sidewalk and labelled them, contributing these additional 1,000,000 images. These images are different from the distribution of images the City Council had originally given you (they were not images from security cameras), but you think it could help your algorithm. Select all that apply about using these images:	
+
+\begin{enumerate}[label=(\alph*)]
+    \item You should not add this data to the training data because it comes from a different distribution than the dev and test data so it will hurt dev and test performance.
+    \item You should not add this data to the dev set because then the dev set will no longer reflect the test set.
+    \item You should not add this data to the test set because then the test set won’t reflect the incoming data the model will be applied on.
+    \item You should not add this data to the test set because a bigger test set will slow down the speed of iterating due to the computational expense of evaluating models on the test set.
+\end{enumerate} 

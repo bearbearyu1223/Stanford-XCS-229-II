@@ -1,0 +1,30 @@
+\item {\bf Double Descent}
+
+The following set of questions are going to discuss a phenomenon known as deep double descent. This is a modern research topic that is still not very well understood. Read the passage below and answer the related questions. For those interested in learning more, visit OpenAI’s blog post here: \url{https://openai.com/blog/deep-double-descent/}\\
+
+When selecting a class of models for a machine learning problem, a classical statistician would caution that using a large class will result in high variance/overfitting. A more contemporary ML practitioner may suggest using larger and larger models based on empirical findings over the last ten years. Recent work has shown that neither of these methodologies uphold exactly. Among many kinds of deep learning models we observe a double descent phenomenon where as model size/complexity increases, test performance first improves, then gets worse as the model begins to overfit, and then continues to improve as we increase model size/complexity. This peak in test error occurs in a ‘critical regime’, where the model is large/complex enough to almost interpolate (perfectly fit) the training set. \\
+
+Intuitively, as one increases the size of an under-parameterized model that is unable to perfectly fit the training data, there is one specific weight configuration that best fits the data. Thus in the complexity regime where the model can approximately interpolate the training data, there is one weight configuration that results in this approximate interpolation. This weight configuration is unlikely to generalize to test data, hence the peak in test error. Once we enter the over-parameterized region there are many models which can perfectly fit the training data. For reasons we don’t yet understand, the implicit bias of stochastic gradient descent (SGD) leads us to find models which both interpolate the training data and generalize well. Note that the implicit bias of SGD refers to the tendency over-parameterized models which are trained using SGD to generalize well to unseen data. \\
+
+We also note a model size regime where having more training data hurts the performance of the model. This is illustrated in the plot below
+\begin{center}
+    \includegraphics[scale=0.3]{double-descent/dd.png}
+\end{center}
+
+Lastly, we note a phenomenon dubbed epoch-wise double descent, where the test error decreases with additional training, then increases as the training data is almost perfectly fit, and then continues to decrease. This is shown in the plot below:
+\begin{center}
+    \includegraphics[scale=0.1]{double-descent/epoch_train.png}
+    \includegraphics[scale=0.1]{double-descent/dd1.png}
+\end{center}
+
+\begin{enumerate}
+    \input{double-descent/01-plot-analysis}
+    \input{double-descent/01-plot-analysis-sol}
+
+    \input{double-descent/02-reasons}
+    \input{double-descent/02-reasons-sol}
+
+    \input{double-descent/03-training-data}
+    \input{double-descent/03-training-data-sol}
+
+\end{enumerate}

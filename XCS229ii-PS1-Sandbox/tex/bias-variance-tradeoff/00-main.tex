@@ -1,0 +1,37 @@
+\item {\bf Bias-Variance Tradeoff}
+
+Let's formally derive the bias-variance trade-off under some mild assumptions. For the sake of our treatment we will assume that we have a fixed set of $x$ values which are non-random. For those more familiar with statistics, the same analysis can be done when $x$ is random by conditioning on $x$. We will assume that for each of our samples $x_i$ there is a corresponding random response $y_i  = f(x_i) + \epsilon_i$ where $f$ is a deterministic function and the $\epsilon_i$ are independent and identically distributed with mean $\textbf{E}[\epsilon_i] = 0$ and some variance $\mathrm{Var}[\epsilon_i] = \sigma^2$. Suppose we use some data set $\mathcal{D} := \{(x_i, y_i)\}$ to come up with (train) a predictive function $\hat{f}(x;\mathcal{D})$. The set $\mathcal{D}$ is our training data. We are interested in the average square error of our predictive function on out of sample data. Namely if $(x, y)$ is a sample not in $\mathcal{D}$, then we want to understand $\textbf{E}[(y - \hat{f}(x;\mathcal{D}))^2]$. Note in practice we use test error as an empirical estimate for this value. \newline
+
+Using the setup above, we can derive
+
+
+\begin{align*}
+&\textbf{E}\bigg[\bigg(y - \hat{f}(x;\mathcal{D})\bigg)^2\bigg]\\
+&= \textbf{E}\bigg[\bigg(f(x) + \epsilon - \hat{f}(x;\mathcal{D})\bigg)^2\bigg]\\
+&= \textbf{E}\bigg[\bigg(f(x) - \textbf{E}[\hat{f}(x;\mathcal{D})] + \epsilon - ( \hat{f}(x;\mathcal{D}) - \textbf{E}[\hat{f}(x;\mathcal{D})])  \bigg)^2\bigg]\\
+&= \textbf{E}\bigg[\bigg(f(x) - \textbf{E}[\hat{f}(x;\mathcal{D})]\bigg)^2\bigg] + \textbf{E}\bigg[\epsilon^2\bigg] + \textbf{E} \bigg[\bigg(  \hat{f}(x;\mathcal{D}) - \textbf{E}[\hat{f}(x;\mathcal{D})] \bigg)^2 \bigg] + \stackrel{0}{\cancel{\textrm{cross terms}}}\\
+&= \bigg(f(x) - \textbf{E}[\hat{f}(x;\mathcal{D})]\bigg)^2 + \textbf{E}\bigg[\epsilon^2\bigg] + \textbf{E} \bigg[\bigg(  \hat{f}(x;\mathcal{D}) - \textbf{E}[\hat{f}(x;\mathcal{D})] \bigg)^2 \bigg] \\
+&= \textrm{Bias}^2[\hat{f}(x;\mathcal{D})] + \mathrm{Var}(\hat{f}(x;\mathcal{D})) + \sigma^2
+\end{align*}
+
+where we've used the fact that $\textrm{Bias}^2[\hat{f}(x;\mathcal{D})] := (f(x) - \textbf{E}[\hat{f}(x;\mathcal{D})])^2 $ We leave it to you to confirm that the cross terms are indeed zero. \newline
+
+Using the above derivation, answer the following questions:\newline
+
+Select all the statements which are true. Suppose we find our predictive model by selecting the function $\hat{f}$ from a class of functions $\mathcal{F}$ which has the least cumulative squared error on the training data $\mathcal{D}$.
+
+%\clearpage
+
+\begin{enumerate}
+    \input{bias-variance-tradeoff/01-d-size}
+    \input{bias-variance-tradeoff/01-d-size-sol}
+
+    
+    \input{bias-variance-tradeoff/02-f-size}
+    \input{bias-variance-tradeoff/02-f-size-sol}
+
+    
+    \input{bias-variance-tradeoff/03-f-decrease}
+    \input{bias-variance-tradeoff/03-f-decrease-sol}
+
+\end{enumerate}
