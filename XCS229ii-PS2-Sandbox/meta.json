@@ -1,0 +1,9 @@
+{
+  "due_date":"Sunday, 4 April at 11:59pm PT",
+  "tex_show_guidelines": true,
+  "tex_show_submission_instructions":true,
+  "tex_show_autograder_instructions":true,
+  "tex_show_honor_code": true,
+  "tex_preamble":"",
+  "multifile_coding_submission":false
+}

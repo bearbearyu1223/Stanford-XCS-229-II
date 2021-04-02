@@ -1,0 +1,19 @@
+{
+  "1-0-basic": {"points": 1, "question_id": "1","is_written": false, "is_extra_credit": false},
+  "1-1-basic": {"points": 1, "question_id": "1", "is_written": false, "is_extra_credit": false},
+  "1-2i-hidden": {"points": 2, "question_id": "1", "is_written": false, "is_extra_credit": false},
+  "1-2ii-hidden": {"points": 2, "question_id": "1", "is_written": false, "is_extra_credit": false},
+  "1-2iii-hidden": {"points": 1, "question_id": "1", "is_written": false, "is_extra_credit": false},
+  "1-2iv-hidden": {"points": 1, "question_id": "1", "is_written": false, "is_extra_credit": false},
+  "1-2v-hidden": {"points": 2, "question_id": "1", "is_written": false, "is_extra_credit": false},
+  "1-3-basic": {"points": 1, "question_id": "1", "is_written": false, "is_extra_credit": false},
+  "1-4-hidden": {"points": 2, "question_id": "1", "is_written": false, "is_extra_credit": false},
+  "1-5-basic": {"points": 1, "question_id": "1", "is_written": false, "is_extra_credit": false},
+  "1-6-basic": {"points": 1, "question_id": "1", "is_written": false, "is_extra_credit": false},
+  "1-7-basic": {"points": 1, "question_id": "1", "is_written": false, "is_extra_credit": false},
+  "1-8i-hidden": {"points": 5, "question_id": "1", "is_written": false, "is_extra_credit": false},
+  "1-8ii-hidden": {"points": 5, "question_id": "1", "is_written": false, "is_extra_credit": false},
+  "1-9-basic": {"points": 1, "question_id": "1", "is_written": false, "is_extra_credit": false},
+  "1-10-basic": {"points": 1, "question_id": "1", "is_written": false, "is_extra_credit": false},
+  "1-11-hidden": {"points": 7, "question_id": "1", "is_written": false, "is_extra_credit": false}
+}
