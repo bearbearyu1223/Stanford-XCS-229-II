@@ -42,10 +42,10 @@ class graded():
     func.__student_feedback__ = self.student_feedback
     @wraps(func)
     def wrapper(*args, **kwargs):
-      # Method for storing result of leaderboard after test completes
+      # Method for storing result of leaderboard after test_core completes
       def set_leaderboard_value(x):
         args[0].__leaderboard_value__ = x
-      # Method for storing elapsed time after test completes
+      # Method for storing elapsed time after test_core completes
       def set_elapsed(elapsed):
         args[0].__elapsed__ = elapsed
       if self.leaderboard_col_name:
@@ -55,7 +55,7 @@ class graded():
       endtime = time.perf_counter()
       set_elapsed(endtime - args[0].starttime)
       if self.is_hidden and not use_solution:
-        # SKip the test if it is hidden and the solution is not present
+        # SKip the test_core if it is hidden and the solution is not present
         # Do this at the end so that the student's code is run and the elapsed time is calculated.
         args[0].skipTest('Hidden tests are skipped if the solution is not present.')
       return result
@@ -68,12 +68,12 @@ class timeout_func:
   def __call__(self, func):
     @wraps(func)
     def wrapper(*args, **kwargs):
-      # Windows signal library does not have a timer interrupt
+      # Windows signal Library does not have a timer interrupt
       if os.name != 'nt':
         # CAUTION: This overrides the previous timer.  Make sure to cleanup after.
         # Define the timeout function.
         def handle_timeout(signum, frame):
-          args[0].fail(f'Test case timed out.  Max time: {self.maxSeconds} seconds')
+          args[0].fail(f'test_core case timed out.  Max time: {self.maxSeconds} seconds')
         # Clear prior alarms
         signal.alarm(0)
         # Assign the timeout function
@@ -186,10 +186,10 @@ class GradedTestCase(unittest.TestCase):
       time.sleep(end-start)
 
 class GradescopeTestResult(unittest.TestResult):
-  """ A test result class that tracks grading parameters for Gradescope.
+  """ A test_core result class that tracks grading parameters for Gradescope.
 
   It uses the Gradescope specification:
-  { "score": 44.0, // optional, but required if not on each test case below. Overrides total of tests if specified.
+  { "score": 44.0, // optional, but required if not on each test_core case below. Overrides total of tests if specified.
     "execution_time": 136, // optional, seconds
     "output": "Text relevant to the entire submission", // optional
     "visibility": "after_due_date", // Optional visibility setting
@@ -207,7 +207,7 @@ class GradescopeTestResult(unittest.TestResult):
               "visibility": "visible", // Optional visibility setting
               "extra_data": {} // Optional extra data to be stored
           },
-          // and more test cases...
+          // and more test_core cases...
       ],
     "leaderboard": // Optional, will set up leaderboards for these values
       [
@@ -218,11 +218,11 @@ class GradescopeTestResult(unittest.TestResult):
   }
 
   Options for the visibility field are:
-  - `hidden`: test case will never be shown to students
-  - `after_due_date`: test case will be shown after the assignment's due date has passed.
-    If late submission is allowed, then test will be shown only after the late due date.
-  - `after_published`: test case will be shown only when the assignment is explicitly published from the "Review Grades" page
-  - `visible` (default): test case will always be shown
+  - `hidden`: test_core case will never be shown to students
+  - `after_due_date`: test_core case will be shown after the assignment's due date has passed.
+    If late submission is allowed, then test_core will be shown only after the late due date.
+  - `after_published`: test_core case will be shown only when the assignment is explicitly published from the "Review Grades" page
+  - `visible` (default): test_core case will always be shown
 
   Attributes:
     stream: io.TextIOBase. This is a simple text stream, which could be a file
@@ -261,7 +261,7 @@ class GradescopeTestResult(unittest.TestResult):
 
   def addSkip(self, test, reason):
     super().addSkip(test, reason)
-    # Don't store the result of a skipped test.
+    # Don't store the result of a skipped test_core.
     # These tests will not be reported to Gradescope
 
   def storeResult(self, test, isSuccess, err=None):
@@ -288,7 +288,7 @@ class GradescopeTestResult(unittest.TestResult):
       self.results['leaderboard'].append({'name':test.leaderboardColName,'value':test.leaderboardValue})
 
 class StudentTestResult(unittest.TestResult):
-  """ A test result class formatted for student viewing.
+  """ A test_core result class formatted for student viewing.
 
   These results are inteded to be written in a student-readable format to a
   stream-like object (stdout or a file of some type).
@@ -318,7 +318,7 @@ class StudentTestResult(unittest.TestResult):
 
   def stopTestRun(self):
     if not use_solution:
-      self.stream.write('Note that the hidden test cases do not check for correctness.\n')
+      self.stream.write('Note that the hidden test_core cases do not check for correctness.\n')
       self.stream.write('They are provided for you to verify that the functions do not crash and run within the time limit.\n')
       self.stream.write('Points for these parts not assigned by the grader unless the solution is present (indicated by "???").\n')
     self.stream.write(f'========== END GRADING [{self.earned_points}/{self.max_points} points + {self.earned_extra_credit}/{self.max_extra_credit} extra credit]\n')
@@ -358,7 +358,7 @@ class StudentTestResult(unittest.TestResult):
     earned = '???' if test.isHidden and not use_solution else (test.earned if isSuccess else 0)
     self.earned_points += test.earned if isSuccess and not test.isExtraCredit else 0
     self.earned_extra_credit += test.earned if isSuccess and test.isExtraCredit else 0
-    hidden_blurb = ' (hidden test ungraded)' if test.isHidden and not use_solution else ''
+    hidden_blurb = ' (hidden test_core ungraded)' if test.isHidden and not use_solution else ''
     self.stream.write(f'----- END {test.id()} [took {datetime.timedelta(seconds=test.elapsed)} (max allowed {test.timeout} seconds), {earned}/{test.weight} points]'+hidden_blurb+'\n\n')
 
 class CourseTestRunner():

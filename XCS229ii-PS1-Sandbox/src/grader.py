@@ -305,7 +305,7 @@ def getTestCaseForTestID(test_id):
       return obj('test_'+part)
 
 if __name__ == '__main__':
-  # Parse for a specific test
+  # Parse for a specific test_core
   parser = argparse.ArgumentParser()
   parser.add_argument('test_case', nargs='?', default='all')
   test_id = parser.parse_args().test_case
