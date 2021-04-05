@@ -68,7 +68,7 @@ class timeout_func:
   def __call__(self, func):
     @wraps(func)
     def wrapper(*args, **kwargs):
-      # Windows signal Lib does not have a timer interrupt
+      # Windows signal Library does not have a timer interrupt
       if os.name != 'nt':
         # CAUTION: This overrides the previous timer.  Make sure to cleanup after.
         # Define the timeout function.
