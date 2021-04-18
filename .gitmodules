@@ -10,3 +10,6 @@
 [submodule "General_Handouts"]
 	path = General_Handouts
 	url = https://github.com/scpd-proed/General_Handouts.git
+[submodule "XCS229ii-PS3"]
+	path = XCS229ii-PS3
+	url = https://github.com/scpd-proed/XCS229ii-PS3.git

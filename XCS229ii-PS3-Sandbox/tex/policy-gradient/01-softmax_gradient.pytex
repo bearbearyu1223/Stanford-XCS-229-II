@@ -1,0 +1,29 @@
+\item \points{1a}
+
+While many policies will succeed, we will be grading you on the implementation of a softmax policy similar to the one presented in lecture.  In lecture, we presented the following policy (designed for the CartPole environment):
+
+\begin{align*}
+  \pi(S,\text{"RIGHT"})&=\frac{1}{1+e^{-\theta^\intercal S}}\\
+  \pi(S,\text{"LEFT"})&=1 - \frac{1}{1+e^{-\theta^\intercal S}}
+\end{align*}
+
+Let's expand the softmax policy to accommodate the four possible actions of Grid World: $\left[\text{RIGHT}, \text{UP}, \text{LEFT}, \text{DOWN}\right]$\footnote{When it is not describing a set of objects, we use $[]$ as an indexing operator instead of subscripts.  This is to avoid confusion with subscripts associated with episode timesteps, $t$.}.
+
+$$\pi(s,a)=\frac{e^{\theta^\intercal s}[a]}{\sum_{a'}e^{\theta^\intercal s}[a']}$$
+
+As presented in lecture, the state, $s$, represents the features used by the policy to calculate the next action (as well as a constant 1 for the bias weight).  In Grid World, $s$ features are a multi-hot representation of the agent's position.  A constant 1 is provided in the first index.  For a 5x5 grid, the next five indices are a one-hot vector indicating the agent's row.  The next five indices are a one-hot vector indictating the agent's column.  The length of the state vector is then $5+5+1$.  For succinctness, we will refer to this as {\tt num\_state\_params + 1}.
+
+$\theta$ is the weight matrix and has a shape of {\tt (num\_state\_params + 1, num\_actions)}.  Therefore, $\frac{e^{\theta^\intercal s}}{\sum_{a'}e^{\theta^\intercal s}[a']}$ has shape {\tt (num\_actions, 1)} and defines a probability distribution over all possible actions, as required by the REINFORCE algorithm.
+
+When implementing this, you will be required to write code for the policy gradient weight update, $\alpha G_t \frac{\nabla_\theta\pi_\theta(s_t,a_t)}{\pi_\theta(s_t,a_t)}$.  $G_t$ is formally defined above.  In the space below, prove the following: 
+$$\left[\frac{\nabla_\theta\pi_\theta(s_t,a_t)}{\pi_\theta(s_t,a_t)}\right]_{i,j}=\left[s_t[i]\begin{rcases}\begin{dcases}
+  1-\pi_\theta(s_t,j) \text{  iff }a_t=j\\
+  -\pi_\theta(s_t,j) \text{  otherwise}
+\end{dcases}\end{rcases}\right]$$.\\
+
+{\bf Hint:} You may find it helpful to note that, using the chain rule in reverse, $$\frac{\nabla_\theta\pi_\theta(s_t,a_t)}{\pi_\theta(s_t,a_t)} = \nabla_\theta\ln\left(\pi_\theta(s_t,a_t)\right)$$
+
+🐍
+import re
+with open('submission.tex') as f: print((re.search(r'% <SCPD_SUBMISSION_TAG>_1a(.*?)% <SCPD_SUBMISSION_TAG>_1a', f.read(), re.DOTALL)).group(1))
+🐍
