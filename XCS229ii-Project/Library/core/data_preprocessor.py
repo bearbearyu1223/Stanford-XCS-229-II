@@ -3,8 +3,8 @@ import pandas as pd
 
 def normalised_windows(window_data, single_window=False):
     """
-    :param window_data:
-    :param single_window:
+    :param window_data: np.array
+    :param single_window: bool
     :return: normalised_data
     """
     normalised_data = []
@@ -23,14 +23,14 @@ def normalised_windows(window_data, single_window=False):
 
 class DataLoader:
     """
-    A class for loading and transforming data from the LSTM model
+    A class for loading and transforming data for the LSTM model
     """
 
     def __init__(self, filename: str, split: float, cols: list):
         """
         :param filename: name of the cvs file
         :param split: train_size / test_size
-        :param cols: list of columns' names to be used in the train and test_core dataset
+        :param cols: list of columns' names to be used in the train and test dataset
         """
         dataframe = pd.read_csv(filename)
         index_split = int(len(dataframe) * split)
@@ -47,6 +47,7 @@ class DataLoader:
         :return: data_x, data_y
         """
         data_windows = []
+        assert self.len_test > seq_len, "ERR:length of test dataset should be larger than the length of the data window"
         for i in range(self.len_test - seq_len):
             data_windows.append(self.data_test[i:i + seq_len])
 
@@ -66,6 +67,8 @@ class DataLoader:
         """
         data_x = []
         data_y = []
+        assert self.len_train > seq_len, "ERR:length of train dataset should be larger than the length of the data " \
+                                         "window "
         for i in range(self.len_train - seq_len):
             x, y = self._next_window(i, seq_len, normalised)
             data_x.append(x)
@@ -82,6 +85,8 @@ class DataLoader:
         :return: data_x_batch, data_y_batch
         """
         i = 0
+        assert self.len_train > seq_len, "ERR:length of train dataset should be larger than the length of the data " \
+                                         "window "
         while i < (self.len_train - seq_len):
             x_batch = []
             y_batch = []
