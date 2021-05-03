@@ -16,7 +16,7 @@ class Model:
 
     def load_saved_model(self, filepath: str):
         """load saved model"""
-        print("[Phase::Load Model]=======>Load Model from {} ...".format(filepath))
+        print("[Phase::Load Model]=======> Load Model from {} ...".format(filepath))
         self.model = load_model(filepath=filepath)
 
     def build_model(self, config: dict):
@@ -38,16 +38,16 @@ class Model:
                 self.model.add(Dropout(dropout_rate))
 
         self.model.compile(loss=config["model"]["loss"], optimizer=config["model"]["optimizer"])
-        print("[Phase::Build Model]=======>Compiled the Model ...")
+        print("[Phase::Build Model]=======> Compiled the Model ...")
         print(self.model.summary())
 
     def train(self, x: np.array, y: np.array, epochs: int, batch_size: int, save_dir: str):
         """train the model"""
         timer = Timer()
         timer.start()
-        print("[Phase::Train Model]=======>Start Training...")
+        print("[Phase::Train Model]=======> Start Training...")
 
-        file_name = os.path.join(save_dir, '%s-e%s.h5' % (dt.datetime.now().strftime('%d%m%Y-%H%M%S'), str(epochs)))
+        file_name = os.path.join(save_dir, '%s-e%s.h5' % (dt.datetime.now().strftime('%d%m%Y'), str(epochs)))
         callbacks = [
             EarlyStopping(monitor="loss", patience=2),
             ModelCheckpoint(filepath=file_name, monitor="loss", save_best_only=True)
@@ -60,19 +60,19 @@ class Model:
             callbacks=callbacks
         )
         self.model.save(file_name)
-        print("[Phase::Train Model]=======>Training completed. Model saved as {}".format(file_name))
+        print("[Phase::Train Model]=======> Training completed. Model saved as {}".format(file_name))
         timer.stop()
 
     def predict_one_step_ahead(self, data):
         """predict 1 time step ahead"""
-        print("[Phase::Prediction]=======>Predict one step ahead ...")
+        print("[Phase::Prediction]=======> Predict one step ahead ...")
         predicted = self.model.predict(x=data)
         predicted = np.reshape(predicted, (predicted.size,))
         return predicted
 
     def predict_multiple_steps_head(self, data, window_size, prediction_len):
         """predict N time steps ahead"""
-        print("[Phase::Prediction]=======>Predict multiple steps ahead ...")
+        print("[Phase::Prediction]=======> Predict multiple steps ahead ...")
         prediction_seqs = []
         for i in range(int(len(data) / window_size)):
             curr_frame = data[i * window_size]
