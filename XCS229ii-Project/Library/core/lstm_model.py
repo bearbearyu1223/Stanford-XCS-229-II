@@ -1,6 +1,7 @@
 import os
 import numpy as np
 import datetime as dt
+import tensorflow as tf
 from keras.layers import Dense, Dropout, LSTM
 from keras.models import Sequential, load_model
 from keras.callbacks import EarlyStopping, ModelCheckpoint
@@ -25,6 +26,8 @@ class Model:
     def build_model(self):
         """Build the model"""
         print("[Phase::Build]")
+        tf.random.set_seed(20)
+        np.random.seed(10)
         self.model.add(LSTM(units=200, input_shape=(self.input_time_steps, self.input_dim), return_sequences=True))
         self.model.add(Dropout(self.dropout_rate))
         self.model.add(LSTM(units=100, return_sequences=False))
