@@ -29,6 +29,8 @@ def plot_time_series_charts(figsize: tuple, xlabels: list, ylabels: list, data: 
         plt.xticks(ticks=range(0, data.shape[0], int(data.shape[0] / num_xticks)),
                    labels=data[xlabels[-1]].loc[::int(data.shape[0] / num_xticks)], rotation=rotation)
         plt.ylabel(ylabels[-1])
+        plt.title(fig_name)
+        plt.legend()
 
     else:
         num_rows = len(ylabels)
