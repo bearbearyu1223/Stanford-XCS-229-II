@@ -102,18 +102,16 @@ def get_technical_indicator_features(data: pd.DataFrame, rolling_x=14, plot_data
 def derive_simple_features(data: pd.DataFrame, rolling_x=3, plot_data=False) \
         -> (np.ndarray, pd.DataFrame):
     # daily return pct change based on adj closed price
-    data['daily_return_pct'] = data['Adj Close'].pct_change().values
+    data['return_roc'] = data['Adj Close'].pct_change().values
     # daily return pct change rolling x days exponential moving average
-    data['roc_ema'] = ta.EMA(data['daily_return_pct'], rolling_x)
+    data['return_roc_ema'] = ta.EMA(data['return_roc'], rolling_x)
     # daily volume pct change
-    data['daily_volume_delta_pct'] = data['Volume'].pct_change().values
+    data['vol_roc'] = data['Volume'].pct_change().values
     # daily volume pct change rolling x days exponential moving average
-    data['vol_roc_ema'] = ta.EMA(data['daily_volume_delta_pct'], rolling_x)
-    data['low_ema'] = ta.EMA(data['Low'], rolling_x)
-    data['high_ema'] = ta.EMA(data['High'], rolling_x)
-    cols = ['low_ema', 'high_ema', 'roc_ema', 'vol_roc_ema']
+    data['vol_roc_ema'] = ta.EMA(data['vol_roc'], rolling_x)
+    cols = ['return_roc_ema', 'vol_roc_ema']
     if plot_data:
-        plot_time_series_charts(figsize=(40, 80), xlabels=['Date', 'Date', 'Date', 'Date'], ylabels=cols, data=data,
+        plot_time_series_charts(figsize=(40, 20), xlabels=['Date', 'Date'], ylabels=cols, data=data,
                                 fig_name="simple_features")
         plot_corr_heatmap(cols=cols, data=data, fig_name="corr_heatmap")
     return cols, data
