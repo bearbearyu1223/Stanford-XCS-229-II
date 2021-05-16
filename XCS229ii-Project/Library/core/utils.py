@@ -2,7 +2,7 @@ import pandas as pd
 import seaborn as sns
 import numpy as np
 import matplotlib.pyplot as plt
-import os 
+import os
 
 
 def plot_time_series_charts(figsize: tuple, xlabels: list, ylabels: list, data: pd.DataFrame, fig_name: str,
@@ -55,8 +55,8 @@ def plot_corr_heatmap(fig_name: str, cols: list, data: pd.DataFrame, save_fig=Tr
 
 
 def plot_trade_action(figsize: tuple, fig_name: str, xlabels: list, ylabels: list,
-                      number_stock: int, initial_invest: float, asset: float, data: pd.DataFrame,
-                      rotation=45, num_xticks=50, num_annotations=20, save_fig=True):
+                      number_stock: int, initial_invest: float, asset: float, passive_trade_result: float,
+                      data: pd.DataFrame, rotation=45, num_xticks=50, num_annotations=20, save_fig=True):
     plt.gcf().set_size_inches(figsize[0], figsize[1], forward=True)
     for i in range(len(ylabels)):
         plt.plot(range(data.shape[0]), data[ylabels[i]], marker='.', label=ylabels[i])
@@ -103,17 +103,17 @@ def plot_trade_action(figsize: tuple, fig_name: str, xlabels: list, ylabels: lis
     plt.xticks(ticks=range(0, data.shape[0], int(data.shape[0] / num_xticks)),
                labels=data[xlabels[-1]].loc[::int(data.shape[0] / num_xticks)], rotation=rotation)
     plt.ylabel(ylabels[-1])
-    title = "Initial Invest : ${:,}; Total Assets : ${:,}; Total # of Stocks: {}".format(int(initial_invest),
-                                                                                         int(asset),
-                                                                                         number_stock)
+    title = "Total Assets via Algorithmic Trading : {:,}USD;  " \
+            "Total # of Stocks via Algorithmic Trading: {}  " \
+            "Total return via Algorithmic Trading: {:.2%}  \n" \
+            "Total Assets via Passive Trading : {:,}USD;   " \
+            "Total # of Stocks via Passive Trading:{}  " \
+            "Total return via Passive Trading: {:.2%}".format(int(asset), number_stock,
+                                                (asset / initial_invest), int(passive_trade_result),
+                                                int(initial_invest / data['real_price'].values.tolist()[0]),
+                                                (passive_trade_result / initial_invest))
     plt.title(title)
     plt.legend()
     if save_fig:
         plt.savefig("./plots/" + fig_name)
     plt.close()
-
-
-
-
-
-    

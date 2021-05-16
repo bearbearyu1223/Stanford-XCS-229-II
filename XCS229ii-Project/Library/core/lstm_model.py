@@ -9,12 +9,14 @@ from keras.callbacks import EarlyStopping, ModelCheckpoint
 
 class Model:
     """Class for building the LSTM model"""
-    def __init__(self, input_time_steps, input_dim, output_dim, dropout_rate=0.1, loss='mse',
+
+    def __init__(self, input_time_steps, input_dim, output_time_steps, output_dim, dropout_rate=0.1, loss='mse',
                  optimizer="adam"):
         self.model = Sequential()
         self.input_time_steps = input_time_steps
         self.input_dim = input_dim
         self.output_dim = output_dim
+        self.output_time_steps = output_time_steps
         self.dropout_rate = dropout_rate
         self.loss = loss
         self.optimizer = optimizer
@@ -40,7 +42,8 @@ class Model:
     def train(self, x: np.array, y: np.array, epochs: int, batch_size: int, save_dir: str):
         """Train the model"""
         print("[Phase::Train]")
-        file_name = os.path.join(save_dir, '%s-e%s.h5' % (dt.datetime.now().strftime('%d%m%Y'), str(epochs)))
+        file_name = os.path.join(save_dir, '%s-e%s-h%s-p%s.h5' % (
+        dt.datetime.now().strftime('%d%m%Y'), str(epochs), str(self.input_time_steps), str(self.output_time_steps)))
         callbacks = [
             EarlyStopping(monitor="loss", patience=2),
             ModelCheckpoint(filepath=file_name, monitor="loss", save_best_only=True)
@@ -60,5 +63,3 @@ class Model:
         predicted = self.model.predict(x=data)
         predicted = np.reshape(predicted, (predicted.size,))
         return predicted
-
-

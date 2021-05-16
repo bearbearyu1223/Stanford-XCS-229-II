@@ -1,4 +1,5 @@
-def buy_sell_trades(actual: list, predicted: list, date: list, invest_fund: float, buying_percentage_threshold=0.0015,
+def buy_sell_trades(actual: list, predicted: list, history_points: int, pred_points: int, date: list,
+                    invest_fund: float, buying_percentage_threshold=0.0015,
                     selling_percentage_threshold=0.0015, initial_number_of_stocks=0, save_log=True):
     y_pct_change = [a1 / a2 - 1.0 for a1, a2 in zip(predicted[1:], predicted)]
 
@@ -6,12 +7,12 @@ def buy_sell_trades(actual: list, predicted: list, date: list, invest_fund: floa
 
     trade_result = invest_fund
 
-    no_trade_result = invest_fund - int(invest_fund / actual[0]) * actual[0] + actual[
-        len(actual) - 1] * number_of_stocks
+    passive_trade_result = invest_fund - int(invest_fund / actual[0]) * actual[0] + actual[
+        len(actual) - 1] * (initial_number_of_stocks + int(invest_fund / actual[0]))
 
     trade_action = []  # -1 for selling, 1 for buying, 0 for holding
     if save_log:
-        f = open("./logs/trading_history.txt", 'w+')
+        f = open("./logs/trading_history_hist_{}_pred_{}.txt".format(history_points, pred_points), 'w+')
     for i in range(len(actual) - 1):
         if i + 1 < len(y_pct_change) and y_pct_change[i + 1] > buying_percentage_threshold:
             k = 0
@@ -62,4 +63,4 @@ def buy_sell_trades(actual: list, predicted: list, date: list, invest_fund: floa
         f.close()
     trade_result = trade_result + number_of_stocks * actual[len(actual) - 1]
 
-    return trade_result, no_trade_result, number_of_stocks, trade_action
+    return trade_result, passive_trade_result, number_of_stocks, trade_action

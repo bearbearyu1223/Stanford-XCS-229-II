@@ -76,7 +76,7 @@ if __name__ == '__main__':
     fig_name_0 = "corr_heat_map"
     plot_corr_heatmap(fig_name=fig_name_0, cols=selected_features, data=df_input_data, save_fig=True)
     selected_targets = ['Adj Close']
-    history_points = 7
+    history_points = 3
     pred_points = 1
     X_train, X_test, y_train, y_test, scaler_y, y_test_date = train_test_split(data=df_input_data,
                                                                                train_test_split_ratio=0.9,
@@ -86,7 +86,8 @@ if __name__ == '__main__':
                                                                                pred_points=pred_points)
     y_train = y_train.reshape(y_train.shape[0], -1)
     y_test = y_test.reshape(y_test.shape[0], -1)
-    model = Model(input_time_steps=history_points, input_dim=len(selected_features), output_dim=pred_points)
+    model = Model(input_time_steps=history_points, input_dim=len(selected_features), output_time_steps=pred_points,
+                  output_dim=pred_points)
     model.build_model()
     model.train(x=X_train, y=y_train, epochs=20, batch_size=32, save_dir="saved_models")
     y_pred = model.predict(X_test)
@@ -120,16 +121,29 @@ if __name__ == '__main__':
                             data=df_results, fig_name=fig_name_3, use_subplots=False)
 
     initial_invest = 100000
-    trade_result, no_trade_result, num_of_stocks, trade_action = buy_sell_trades(
+    buying_percentage_threshold = 0.002
+    selling_percentage_threshold = 0.002
+    trade_result, passive_trade_result, num_of_stocks, trade_action = buy_sell_trades(
         actual=df_results['real_price'].values.tolist(),
         predicted=df_results['pred_price'].values.tolist(),
         date=df_results['Date'].values.tolist(),
-        invest_fund=initial_invest)
+        invest_fund=initial_invest,
+        history_points=history_points,
+        pred_points=pred_points,
+        buying_percentage_threshold=buying_percentage_threshold,
+        selling_percentage_threshold=selling_percentage_threshold)
 
     df_results['trade_action'] = trade_action
     fig_name_4 = "trade_action_hist_steps_{0}_pred_steps_{1}".format(history_points, pred_points)
-    plot_trade_action(figsize=(20, 8), fig_name=fig_name_4, xlabels=['Date', 'Date'],
+    plot_trade_action(figsize=(20, 8),
+                      fig_name=fig_name_4,
+                      xlabels=['Date', 'Date'],
                       ylabels=['real_price', 'pred_price'],
-                      data=df_results, number_stock=num_of_stocks, initial_invest=initial_invest, asset=trade_result,
+                      data=df_results,
+                      number_stock=num_of_stocks,
+                      initial_invest=initial_invest,
+                      passive_trade_result=passive_trade_result,
+                      asset=trade_result,
                       rotation=45, num_xticks=50,
-                      num_annotations=len(df_results), save_fig=True)
+                      num_annotations=len(df_results),
+                      save_fig=True)
