@@ -2,6 +2,7 @@ import pandas as pd
 import seaborn as sns
 import numpy as np
 import matplotlib.pyplot as plt
+import os 
 
 
 def plot_time_series_charts(figsize: tuple, xlabels: list, ylabels: list, data: pd.DataFrame, fig_name: str,
@@ -51,3 +52,68 @@ def plot_corr_heatmap(fig_name: str, cols: list, data: pd.DataFrame, save_fig=Tr
     if save_fig:
         sns_plot.figure.savefig("./plots/" + fig_name + "_%s" % cols)
     plt.close()
+
+
+def plot_trade_action(figsize: tuple, fig_name: str, xlabels: list, ylabels: list,
+                      number_stock: int, initial_invest: float, asset: float, data: pd.DataFrame,
+                      rotation=45, num_xticks=50, num_annotations=20, save_fig=True):
+    plt.gcf().set_size_inches(figsize[0], figsize[1], forward=True)
+    for i in range(len(ylabels)):
+        plt.plot(range(data.shape[0]), data[ylabels[i]], marker='.', label=ylabels[i])
+        if i == len(ylabels) - 1:
+            xs = np.arange(0, data.shape[0], int(data.shape[0] / num_annotations))
+            ys = [data[ylabels[i]].values.tolist()[ts] for ts in xs]
+            ls = [data['trade_action'].values.tolist()[ts] for ts in xs]
+            for x, y, l in zip(xs, ys, ls):
+                if l == -1:
+                    label = "S"
+                    plt.annotate(label,  # this is the text
+                                 (x, y),  # this is the point to label
+                                 textcoords="offset points",  # how to position the text
+                                 xytext=(0, 50),  # distance from text to points (x,y)
+                                 va='top',
+                                 bbox=dict(boxstyle="round", fc="red"),
+                                 arrowprops=dict(
+                                     arrowstyle="-", fc="lightgrey"),
+                                 ha='center')  # horizontal alignment can be left, right or center
+                    # plt.scatter(x, y, marker='v', color='red', s=100)
+                elif l == 1:
+                    label = "B"
+                    plt.annotate(label,  # this is the text
+                                 (x, y),  # this is the point to label
+                                 textcoords="offset points",  # how to position the text
+                                 xytext=(0, 50),  # distance from text to points (x,y)
+                                 va='top',
+                                 bbox=dict(boxstyle="round", fc="cyan"),
+                                 arrowprops=dict(
+                                     arrowstyle="-", fc="lightgrey"),
+                                 ha='center')  # horizontal alignment can be left, right or center
+                    # plt.scatter(x, y, marker='^', color='green', s=100)
+                # else:
+                #     label = "H"
+                #     plt.annotate(label,  # this is the text
+                #                  (x, y),  # this is the point to label
+                #                  textcoords="offset points",  # how to position the text
+                #                  xytext=(0, 50),  # distance from text to points (x,y)
+                #                  va='top',
+                #                  bbox=dict(boxstyle="round", fc="lightgrey"),
+                #                  arrowprops=dict(
+                #                      arrowstyle="-", fc="lightgrey"),
+                #                  ha='center')  # horizontal alignment can be left, right or center
+    plt.xticks(ticks=range(0, data.shape[0], int(data.shape[0] / num_xticks)),
+               labels=data[xlabels[-1]].loc[::int(data.shape[0] / num_xticks)], rotation=rotation)
+    plt.ylabel(ylabels[-1])
+    title = "Initial Invest : ${:,}; Total Assets : ${:,}; Total # of Stocks: {}".format(int(initial_invest),
+                                                                                         int(asset),
+                                                                                         number_stock)
+    plt.title(title)
+    plt.legend()
+    if save_fig:
+        plt.savefig("./plots/" + fig_name)
+    plt.close()
+
+
+
+
+
+    

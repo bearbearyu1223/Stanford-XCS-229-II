@@ -1,5 +1,6 @@
 from featuer_generator import *
 from utils import *
+from trade_strategy import *
 from lstm_model import Model
 from sklearn import preprocessing
 from sklearn import metrics
@@ -76,7 +77,7 @@ if __name__ == '__main__':
     plot_corr_heatmap(fig_name=fig_name_0, cols=selected_features, data=df_input_data, save_fig=True)
     selected_targets = ['Adj Close']
     history_points = 7
-    pred_points = 4
+    pred_points = 1
     X_train, X_test, y_train, y_test, scaler_y, y_test_date = train_test_split(data=df_input_data,
                                                                                train_test_split_ratio=0.9,
                                                                                features=selected_features,
@@ -100,8 +101,8 @@ if __name__ == '__main__':
     df_results['real_price_cumulative_return'] = (1 + df_results['real_price_daily_return']).cumprod() - 1
     df_results['pred_price_daily_return'] = df_results['pred_price'].pct_change().values
     df_results['pred_price_cumulative_return'] = (1 + df_results['pred_price_daily_return']).cumprod() - 1
-    df_results['pred_err'] = (df_results['pred_price'] - df_results['real_price'])/df_results['real_price']
-    df_results['pred_accuracy'] =df_results['pred_err'].abs()
+    df_results['pred_err'] = (df_results['pred_price'] - df_results['real_price']) / df_results['real_price']
+    df_results['pred_accuracy'] = df_results['pred_err'].abs()
 
     rmse = int(metrics.mean_squared_error(y_test.reshape(-1), y_pred.reshape(-1), squared=False))
     print("rmse: {}".format(rmse))
@@ -117,3 +118,18 @@ if __name__ == '__main__':
     fig_name_3 = "pred_accuracy_hist_steps_{0}_pred_steps_{1}".format(history_points, pred_points)
     plot_time_series_charts(figsize=(20, 8), xlabels=['Date'], ylabels=['pred_accuracy'],
                             data=df_results, fig_name=fig_name_3, use_subplots=False)
+
+    initial_invest = 100000
+    trade_result, no_trade_result, num_of_stocks, trade_action = buy_sell_trades(
+        actual=df_results['real_price'].values.tolist(),
+        predicted=df_results['pred_price'].values.tolist(),
+        date=df_results['Date'].values.tolist(),
+        invest_fund=initial_invest)
+
+    df_results['trade_action'] = trade_action
+    fig_name_4 = "trade_action_hist_steps_{0}_pred_steps_{1}".format(history_points, pred_points)
+    plot_trade_action(figsize=(20, 8), fig_name=fig_name_4, xlabels=['Date', 'Date'],
+                      ylabels=['real_price', 'pred_price'],
+                      data=df_results, number_stock=num_of_stocks, initial_invest=initial_invest, asset=trade_result,
+                      rotation=45, num_xticks=50,
+                      num_annotations=len(df_results), save_fig=True)
