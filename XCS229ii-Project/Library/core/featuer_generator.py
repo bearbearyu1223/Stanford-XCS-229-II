@@ -1,13 +1,7 @@
-import numpy as np
 from pandas_datareader import data as pdr
 import talib as ta
 
 from utils import *
-
-STOCK_SYMBOL = 'GOOG'
-START_DATE = '2010-01-01'
-END_DATE = '2021-04-30'
-ROLLING_X = 3
 
 def get_raw_data(stock_symbol: str, start_date: str, end_date: str, plot_data=False) -> (np.ndarray, pd.DataFrame):
     data = pdr.get_data_yahoo(stock_symbol, start_date, end_date)
@@ -27,6 +21,7 @@ def get_raw_data(stock_symbol: str, start_date: str, end_date: str, plot_data=Fa
 def get_technical_indicator_features(data: pd.DataFrame, rolling_x=14, plot_data=False) \
         -> (np.ndarray, pd.DataFrame):
     # OBV: on-balance volume
+    data = data.astype({'Volume': float})
     obv = ta.OBV(data['Close'].values, data['Volume'].values)
     obv_ema = ta.EMA(obv, timeperiod=rolling_x)
     data['obv_ema'] = obv_ema.tolist()
