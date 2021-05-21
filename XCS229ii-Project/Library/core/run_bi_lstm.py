@@ -10,7 +10,7 @@ START_DATE = '2010-01-01'
 END_DATE = '2021-04-30'
 ROLLING_X = 3
 TRAIN_MODEL = True
-SAVE_MODEL_FILE_PATH = "./saved_models/17052021-e20-h7-p1.h5"
+SAVE_MODEL_FILE_PATH = "./saved_models/bi-lstm-21052021-e20-h7-p1.h5"
 
 if __name__ == '__main__':
     df_input_data = get_raw_data(stock_symbol=STOCK_SYMBOL, start_date=START_DATE, end_date=END_DATE, plot_data=True)
