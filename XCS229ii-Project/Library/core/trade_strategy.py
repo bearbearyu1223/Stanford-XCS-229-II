@@ -1,6 +1,6 @@
 def buy_sell_trades(actual: list, predicted: list, history_points: int, pred_points: int, date: list,
                     invest_fund: float, buying_percentage_threshold=0.0015,
-                    selling_percentage_threshold=0.0015, initial_number_of_stocks=0, save_log=True):
+                    selling_percentage_threshold=0.0015, initial_number_of_stocks=0, save_log=True, model_name=None):
     y_pct_change = [a1 / a2 - 1.0 for a1, a2 in zip(predicted[1:], predicted)]
 
     number_of_stocks = initial_number_of_stocks
@@ -12,7 +12,10 @@ def buy_sell_trades(actual: list, predicted: list, history_points: int, pred_poi
 
     trade_action = []  # -1 for selling, 1 for buying, 0 for holding
     if save_log:
-        f = open("./logs/trading_history_hist_{}_pred_{}.txt".format(history_points, pred_points), 'w+')
+        if model_name is None:
+            f = open("./logs/{}_trading_history_hist_{}_pred_{}.txt".format(model_name, history_points, pred_points), 'w+')
+        else:
+            f = open("./logs/{}_trading_history_hist_{}_pred_{}.txt".format(model_name, history_points, pred_points), 'w+')
     for i in range(len(actual) - 1):
         if i + 1 < len(y_pct_change) and y_pct_change[i + 1] > buying_percentage_threshold:
             k = 0

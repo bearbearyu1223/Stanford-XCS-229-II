@@ -6,7 +6,10 @@ from sklearn import preprocessing
 
 
 def plot_time_series_charts(figsize: tuple, xlabels: list, ylabels: list, data: pd.DataFrame, fig_name: str,
-                            rotation=45, num_xticks=50, num_annotations=10, save_fig=True, use_subplots=True):
+                            rotation=45, num_xticks=50, num_annotations=10, save_fig=True, use_subplots=True,
+                            model_name=None):
+    if model_name is not None:
+        fig_name = fig_name + "_" + model_name
     if not use_subplots:
         plt.gcf().set_size_inches(figsize[0], figsize[1], forward=True)
         for i in range(len(ylabels)):
@@ -27,7 +30,6 @@ def plot_time_series_charts(figsize: tuple, xlabels: list, ylabels: list, data: 
         plt.ylabel(ylabels[-1])
         plt.title(fig_name)
         plt.legend()
-
     else:
         num_rows = len(ylabels)
         num_cols = 1
@@ -54,7 +56,7 @@ def plot_corr_heatmap(fig_name: str, cols: list, data: pd.DataFrame, save_fig=Tr
     plt.close()
 
 
-def plot_trade_action(figsize: tuple, fig_name: str, xlabels: list, ylabels: list,
+def plot_trade_action(model_name: str, figsize: tuple, fig_name: str, xlabels: list, ylabels: list,
                       number_stock: int, initial_invest: float, asset: float, passive_trade_result: float,
                       data: pd.DataFrame, rotation=45, num_xticks=50, num_annotations=20, save_fig=True):
     plt.gcf().set_size_inches(figsize[0], figsize[1], forward=True)
@@ -103,12 +105,12 @@ def plot_trade_action(figsize: tuple, fig_name: str, xlabels: list, ylabels: lis
     plt.xticks(ticks=range(0, data.shape[0], max(int(data.shape[0] / num_xticks), 1)),
                labels=data[xlabels[-1]].loc[::max(int(data.shape[0] / num_xticks), 1)], rotation=rotation)
     plt.ylabel(ylabels[-1])
-    title = "Total Assets via Algorithmic Trading : {:,}USD;  " \
+    title = "Model : {}; Total Assets via Algorithmic Trading : {:,}USD;  " \
             "Total # of Stocks via Algorithmic Trading: {}  " \
             "Total return via Algorithmic Trading: {:.2%}  \n" \
             "Total Assets via Passive Trading : {:,}USD;   " \
             "Total # of Stocks via Passive Trading:{}  " \
-            "Total return via Passive Trading: {:.2%}".format(int(asset), number_stock,
+            "Total return via Passive Trading: {:.2%}".format(model_name, int(asset), number_stock,
                                                               (asset / initial_invest), int(passive_trade_result),
                                                               int(initial_invest / data['real_price'].values.tolist()[
                                                                   0]),
@@ -116,7 +118,7 @@ def plot_trade_action(figsize: tuple, fig_name: str, xlabels: list, ylabels: lis
     plt.title(title)
     plt.legend()
     if save_fig:
-        plt.savefig("./plots/" + fig_name)
+        plt.savefig("./plots/" + fig_name + '_' + model_name)
     plt.close()
 
 

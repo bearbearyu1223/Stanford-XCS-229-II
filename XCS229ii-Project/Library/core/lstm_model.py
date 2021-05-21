@@ -30,20 +30,20 @@ class Model:
         print("[Phase::Build]")
         tf.random.set_seed(20)
         np.random.seed(10)
-        self.model.add(LSTM(units=200, input_shape=(self.input_time_steps, self.input_dim), return_sequences=True))
+        self.model.add(LSTM(units=200, activation='relu', input_shape=(self.input_time_steps, self.input_dim),
+                            return_sequences=True))
         self.model.add(Dropout(self.dropout_rate))
-        self.model.add(LSTM(units=100, return_sequences=False))
+        self.model.add(LSTM(units=100, activation='relu', return_sequences=False))
         self.model.add(Dropout(self.dropout_rate))
-        self.model.add(Dense(units=self.output_dim, activation='linear'))
+        self.model.add(Dense(units=self.output_time_steps, activation='linear'))
 
         self.model.compile(loss=self.loss, optimizer=self.optimizer)
-        print(self.model.summary())
 
     def train(self, x: np.array, y: np.array, epochs: int, batch_size: int, save_dir: str):
         """Train the model"""
         print("[Phase::Train]")
-        file_name = os.path.join(save_dir, '%s-e%s-h%s-p%s.h5' % (
-        dt.datetime.now().strftime('%d%m%Y'), str(epochs), str(self.input_time_steps), str(self.output_time_steps)))
+        file_name = os.path.join(save_dir, '%s-%s-e%s-h%s-p%s.h5' % ("lstm",
+            dt.datetime.now().strftime('%d%m%Y'), str(epochs), str(self.input_time_steps), str(self.output_time_steps)))
         callbacks = [
             EarlyStopping(monitor="loss", patience=2),
             ModelCheckpoint(filepath=file_name, monitor="loss", save_best_only=True)
@@ -55,6 +55,7 @@ class Model:
             batch_size=batch_size,
             callbacks=callbacks
         )
+        print(self.model.summary())
         self.model.save(file_name)
 
     def predict(self, data):
