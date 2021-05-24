@@ -20,6 +20,15 @@ data), medium sequence (14 days’ historical data), and long sequence(28 days�
 train and predict the next day’s stock price; a simple trading strategy has also been implemented to evaluate the return
 of investment using the models trained via those experiments.
 
+See sample stock price prediction below via Bidirectional LSTM (Bi-LSTM) model, where features learned from the past 14
+days' are used to predict next day's stock price.
+![image info](./Library/core/plots/pred_results_rmse_110_hist_steps_28_pred_steps_1_bi-lstm.png)
+
+See sample trading event history below via deployed Bidirectional LSTM (Bi-LSTM) model, and the trading strategy is able
+to "buy at low" and "sell at high" with good return of investment based on the predicted stock price from the machine
+learning model.
+![image info](./Library/core/plots/trade_action_hist_steps_28_pred_steps_1_bi-lstm.png)
+
 #### Final Paper
 
 Final paper can be viewed and be
@@ -27,8 +36,8 @@ downloaded [here](https://github.com/bearbearyu1223/Stanford-XCS-229-II/blob/mai
 .
 
 #### Contact
-Aside from my busy day work and other life commitment, I am a believer of *constant learning*.
-Learning something new every day(big or small, does *not* have to be a technical skill), 
-will make a huge difference in the long term. 
+
+Aside from my busy day work and other life commitment, I am a believer of *constant learning*. Learning something new
+every day(big or small, does *not* have to be a technical skill), will make a huge difference in the long term.
 
 My LinkedIn profile is shared at [han-yu-go-irish](https://www.linkedin.com/in/han-yu-goirish/).
