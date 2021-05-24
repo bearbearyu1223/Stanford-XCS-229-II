@@ -25,3 +25,10 @@ of investment using the models trained via those experiments.
 Final paper can be viewed and be
 downloaded [here](https://github.com/bearbearyu1223/Stanford-XCS-229-II/blob/main/XCS229ii-Project/Final%20Paper/XCS229II%20Final%20Paper-Han%20Yu.pdf)
 .
+
+#### Contact
+Aside from my busy day work and other life commitment, I am a believer of *constant learning*.
+Learning something new every day(big or small, does *not* have to be a technical skill), 
+will make a huge difference in the long term. 
+
+My LinkedIn profile is shared at [han-yu-go-irish](https://www.linkedin.com/in/han-yu-goirish/).
