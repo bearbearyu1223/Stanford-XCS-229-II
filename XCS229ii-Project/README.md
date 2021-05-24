@@ -20,6 +20,10 @@ data), medium sequence (14 days’ historical data), and long sequence(28 days�
 train and predict the next day’s stock price; a simple trading strategy has also been implemented to evaluate the return
 of investment using the models trained via those experiments.
 
+Different Model Architectures explored in the project.
+![image info](./Pictures/Model_Architecture_1.png)
+
+![image info](./Pictures/Model_Architecture_2.png)
 See sample stock price prediction below via Bidirectional LSTM (Bi-LSTM) model, where features learned from the past 14
 days' are used to predict next day's stock price.
 ![image info](./Library/core/plots/pred_results_rmse_110_hist_steps_28_pred_steps_1_bi-lstm.png)
